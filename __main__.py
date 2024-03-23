@@ -1,7 +1,8 @@
 import logging
 import os
+
 import dotenv
-from core.bot import sealbot
+from disnake.ext import commands
 
 
 def main() -> None:
@@ -9,10 +10,14 @@ def main() -> None:
     dotenv.load_dotenv()
 
     if (token := os.getenv("TOKEN")) is None:
-        logging.error(
-            "No 'TOKEN' environment variable was found, please set it and try again."
-        )
+        logging.error("No 'TOKEN' environment variable was found.")
         exit(1)
+
+    sealbot = commands.InteractionBot(
+        reload=False,
+        test_guilds=None,
+        activity=None,
+    )
 
     sealbot.run(token)
 
